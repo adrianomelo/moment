@@ -42,17 +42,8 @@ function chooseLocale(names) {
 }
 
 function loadLocale(name) {
-    var oldLocale = null;
-    // TODO: Find a better way to register and load all the locales in Node
-    if (!locales[name] && (typeof module !== 'undefined') &&
-            module && module.exports) {
-        try {
-            oldLocale = globalLocale._abbr;
-            require('./locale/' + name);
-            // because defineLocale currently also sets the global locale, we
-            // want to undo that for lazy loaded locales
-            getSetGlobalLocale(oldLocale);
-        } catch (e) { }
+    if (!locales[name]) {
+        throw new Error('Locale "' + name + '" is not loaded.');
     }
     return locales[name];
 }
